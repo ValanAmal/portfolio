@@ -62,7 +62,7 @@ export function Contact() {
                 <form className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-primary text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-muted-foreground">$</span> set --name
+                      <span className="text-muted-foreground">$</span> Name
                     </label>
                     <input 
                       type="text" 
@@ -74,7 +74,7 @@ export function Contact() {
                   
                   <div className="space-y-2">
                     <label className="text-primary text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-muted-foreground">$</span> set --email
+                      <span className="text-muted-foreground">$</span> Email
                     </label>
                     <input 
                       type="email" 
@@ -86,7 +86,7 @@ export function Contact() {
                   
                   <div className="space-y-2">
                     <label className="text-primary text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-muted-foreground">$</span> set --payload
+                      <span className="text-muted-foreground">$</span> Message
                     </label>
                     <textarea 
                       required
