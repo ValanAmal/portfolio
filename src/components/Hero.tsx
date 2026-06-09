@@ -18,7 +18,7 @@ export function Hero() {
         >
           <Terminal size={16} className="text-primary" />
           <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase">
-            System Online
+            THE GOAT
           </span>
         </motion.div>
 
