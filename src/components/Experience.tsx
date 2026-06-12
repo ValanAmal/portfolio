@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, ChevronRight, ChevronDown, CheckSquare, FolderGit2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Terminal, FolderGit2 } from "lucide-react";
 
 const timelineData = [
   {
@@ -13,14 +12,6 @@ const timelineData = [
     duration: "Feb 2025 – Apr 2025",
     description: "Completed a focused internship on Full Stack Web Design and Development. Executed live client projects involving website design, content management, responsive development, SEO optimization, and WordPress-based solutions. Acquired practical industry experience bridging front-end development and modern web workflows.",
     tech: ["WordPress", "WPBakery", "HTML/CSS", "JavaScript", "React.js", "SEO"],
-    contributions: [
-      "Website content management",
-      "Responsive web design",
-      "UI improvements & layout customization",
-      "Content writing and publishing",
-      "SEO optimization",
-      "Client project support"
-    ],
     projects: [
       "PEPS India", "Everwood WPC", "WB Bakery", "SSN School of Management", 
       "SSN College of Engineering", "Geetharaja", "Rajas International School", "Indian Agriculture College"
@@ -30,26 +21,19 @@ const timelineData = [
     id: "edu-1",
     type: "ACADEMIC_FOUNDATION",
     role: "B.Tech Computer Science Engineering",
-    company: "Loyola-ICAM College of Engineering and Technology",
+    company: "Loyola-ICAM College of Engineering and Technology (LICET)",
     duration: "2021 – 2025",
     description: "Building a strong foundation in computer science principles, software engineering, and problem-solving methodologies.",
     tech: ["C", "Java", "Python", "Data Structures", "Algorithms"],
-    contributions: ["Academic coursework", "Core CS fundamentals", "Algorithm design"],
     projects: []
   }
 ];
 
 export function Experience() {
-  const [expandedId, setExpandedId] = useState<string | null>("exp-1");
-
-  const toggleAccordion = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
     <section id="experience" className="py-24 relative z-10 bg-transparent border-y border-primary/20">
-      <div className="container mx-auto px-6 max-w-4xl">
-        <div className="mb-12 flex items-center gap-4 border-b border-white/10 pb-6">
+      <div className="container mx-auto px-6 max-w-5xl">
+        <div className="mb-16 flex items-center gap-4 border-b border-white/10 pb-6">
           <Terminal size={32} className="text-primary" />
           <div>
             <h2 className="text-3xl md:text-4xl font-heading font-black text-white uppercase tracking-tight">
@@ -59,113 +43,77 @@ export function Experience() {
           </div>
         </div>
 
-        <div className="space-y-4 font-mono">
-          {timelineData.map((item) => {
-            const isExpanded = expandedId === item.id;
-            
-            return (
-              <div 
-                key={item.id} 
-                className="border border-white/10 bg-transparent rounded overflow-hidden"
-              >
-                {/* Accordion Header */}
-                <button 
-                  onClick={() => toggleAccordion(item.id)}
-                  className={`w-full text-left px-6 py-4 flex items-center justify-between transition-colors ${
-                    isExpanded ? "bg-transparent border-b border-primary/20" : "hover:bg-transparent"
-                  }`}
-                >
-                  <div className="flex items-center gap-4 overflow-hidden">
-                    {isExpanded ? (
-                      <ChevronDown size={20} className="text-primary shrink-0" />
-                    ) : (
-                      <ChevronRight size={20} className="text-muted-foreground shrink-0" />
-                    )}
-                    <div className="truncate">
-                      <span className="text-primary mr-3 text-xs md:text-sm">[{item.duration}]</span>
-                      <span className={`font-bold text-sm md:text-base ${isExpanded ? "text-white" : "text-white/80"}`}>
-                        {item.role} @ {item.company}
-                      </span>
+        <div className="space-y-12">
+          {timelineData.map((item, index) => (
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.2 }}
+              key={item.id} 
+              className="relative p-8 md:p-12 border border-white/10 bg-[#050505] rounded-xl overflow-hidden group hover:border-primary/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(255,26,26,0.15)]"
+            >
+              {/* Holographic background sweep on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+              {/* Decorative corners */}
+              <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-primary/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-primary/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+              {/* Header */}
+              <div className="flex flex-col md:flex-row justify-between md:items-start gap-4 mb-8 relative z-10">
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-heading font-black text-white tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] group-hover:text-primary transition-colors">
+                    {item.company}
+                  </h3>
+                  <div className="text-primary/90 font-mono tracking-widest uppercase text-sm mt-2">
+                    {item.role}
+                  </div>
+                </div>
+                <div className="px-4 py-2 bg-primary/10 border border-primary/30 rounded-sm font-mono text-primary text-sm shadow-[0_0_15px_rgba(255,26,26,0.2)] shrink-0">
+                  {item.duration}
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className="text-muted-foreground leading-relaxed font-light text-lg mb-10 relative z-10">
+                {item.description}
+              </p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
+                {/* Deployed Modules (Client Projects) */}
+                {item.projects.length > 0 && (
+                  <div>
+                    <h4 className="text-white/50 mb-4 flex items-center gap-2 text-xs tracking-widest uppercase">
+                      <FolderGit2 size={14} className="text-primary" /> Key Deployments / Clients
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {item.projects.map((project, i) => (
+                        <span key={i} className="text-sm text-white font-bold tracking-widest uppercase bg-white/5 border border-white/20 px-4 py-2 rounded-sm group-hover:border-white/50 group-hover:bg-white/10 transition-colors drop-shadow-md">
+                          {project}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                  <div className="hidden md:block text-xs text-muted-foreground/50 uppercase tracking-widest shrink-0 ml-4">
-                    {item.type}
+                )}
+
+                {/* Tech Stack */}
+                <div className={item.projects.length === 0 ? "lg:col-span-2" : ""}>
+                  <h4 className="text-white/50 mb-4 flex items-center gap-2 text-xs tracking-widest uppercase">
+                    <Terminal size={14} className="text-primary" /> Tech Stack
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {item.tech.map(tech => (
+                      <span key={tech} className="px-3 py-1.5 text-xs font-mono text-primary/90 bg-primary/10 border border-primary/30 rounded-sm shadow-[0_0_10px_rgba(255,26,26,0.1)]">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
-                </button>
-
-                {/* Accordion Body */}
-                <AnimatePresence>
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="p-6 md:p-8 space-y-8 text-sm md:text-base">
-                        
-                        {/* Description */}
-                        <div>
-                          <p className="text-muted-foreground/90 leading-relaxed font-light">
-                            <span className="text-primary mr-2">&gt;</span>
-                            {item.description}
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                          {/* Tech Stack */}
-                          <div>
-                            <h4 className="text-white/50 mb-3 flex items-center gap-2 text-xs tracking-widest uppercase">
-                              <Terminal size={14} className="text-primary" /> Stack Loaded
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {item.tech.map(tech => (
-                                <span key={tech} className="px-2 py-1 text-xs text-primary/80 bg-primary/10 border border-primary/20 rounded-sm">
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Contributions */}
-                          <div>
-                            <h4 className="text-white/50 mb-3 flex items-center gap-2 text-xs tracking-widest uppercase">
-                              <CheckSquare size={14} className="text-primary" /> Key Executions
-                            </h4>
-                            <ul className="space-y-2">
-                              {item.contributions.map((contribution, i) => (
-                                <li key={i} className="text-muted-foreground font-light flex items-start gap-2">
-                                  <span className="text-primary mt-1 text-[10px]">■</span>
-                                  <span>{contribution}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-
-                        {/* Projects */}
-                        {item.projects.length > 0 && (
-                          <div className="pt-6 border-t border-white/5">
-                            <h4 className="text-white/50 mb-4 flex items-center gap-2 text-xs tracking-widest uppercase">
-                              <FolderGit2 size={14} className="text-primary" /> Deployed Modules
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {item.projects.map((project, i) => (
-                                <span key={i} className="text-xs text-white/70 bg-white/5 border border-white/10 px-3 py-1.5 rounded-sm">
-                                  {project}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                </div>
               </div>
-            );
-          })}
+
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

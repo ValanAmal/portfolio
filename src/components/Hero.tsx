@@ -1,15 +1,33 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Terminal } from "lucide-react";
 
 export function Hero() {
+  const [isGlitching, setIsGlitching] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    // Periodic glitch effect: triggers every 4s for ~400ms
+    const glitchInterval = setInterval(() => {
+      setIsGlitching(true);
+      setTimeout(() => setIsGlitching(false), 400);
+    }, 4000);
+    return () => clearInterval(glitchInterval);
+  }, []);
+
+  const showGlitch = isGlitching || isHovered;
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Central glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      {/* Background radial gradient for focus */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-black to-black z-0"></div>
 
+      {/* Hero Content */}
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+        
+        {/* Terminal Badge */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -22,20 +40,73 @@ export function Hero() {
           </span>
         </motion.div>
 
-        <motion.h1
+        {/* Glitching Name Wrapper */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl md:text-7xl lg:text-8xl font-heading font-black tracking-tighter mb-6"
+          className="relative inline-block mb-6 group cursor-default"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
-            VALAN
-          </span>{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent drop-shadow-[0_0_20px_rgba(255,26,26,0.5)]">
-            AMAL
-          </span>
-        </motion.h1>
+          {/* Base Text */}
+          <h1 className={`text-5xl md:text-7xl lg:text-8xl font-heading font-black tracking-tighter uppercase relative z-10 transition-all duration-75 ${showGlitch ? 'opacity-80 scale-[1.01]' : 'opacity-100'}`}>
+            <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">VALAN</span>{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent drop-shadow-[0_0_20px_rgba(255,26,26,0.5)]">AMAL</span>
+          </h1>
+          
+          {/* Periodic Glitch Layers */}
+          <AnimatePresence>
+            {showGlitch && (
+              <>
+                <h1 
+                  className="text-5xl md:text-7xl lg:text-8xl font-heading font-black tracking-tighter uppercase absolute top-0 left-0 z-20 pointer-events-none w-full"
+                  style={{ 
+                    textShadow: '-4px 0 rgba(255, 26, 26, 0.8)', 
+                    animation: isHovered ? 'hero-glitch-1 0.15s infinite linear alternate-reverse' : 'hero-glitch-1 0.2s infinite linear alternate-reverse'
+                  }}
+                  aria-hidden="true"
+                >
+                  <span className="text-white">VALAN</span>{" "}
+                  <span className="text-primary">AMAL</span>
+                </h1>
+                <h1 
+                  className="text-5xl md:text-7xl lg:text-8xl font-heading font-black tracking-tighter uppercase absolute top-0 left-0 z-20 pointer-events-none w-full"
+                  style={{ 
+                    textShadow: '4px 0 rgba(0, 255, 255, 0.6)', 
+                    animation: isHovered ? 'hero-glitch-2 0.2s infinite linear alternate-reverse' : 'hero-glitch-2 0.3s infinite linear alternate-reverse'
+                  }}
+                  aria-hidden="true"
+                >
+                  <span className="text-white">VALAN</span>{" "}
+                  <span className="text-primary">AMAL</span>
+                </h1>
+              </>
+            )}
+          </AnimatePresence>
 
+          {/* Hover Sith Energy Lightning / Split */}
+          <AnimatePresence>
+            {isHovered && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1.2 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 z-30 pointer-events-none mix-blend-screen"
+              >
+                {/* Horizontal cut line simulating letter splitting */}
+                <div className="absolute top-1/2 left-[-10%] right-[-10%] h-[2px] bg-primary shadow-[0_0_20px_#FF1A1A] animate-pulse"></div>
+                <div className="absolute top-[48%] left-[-5%] right-[-5%] h-[1px] bg-white opacity-50 shadow-[0_0_10px_#ffffff]"></div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Holographic glowing effect behind text */}
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/20 blur-[50px] -z-10 rounded-full transition-transform duration-300 ${isHovered ? 'scale-150 bg-primary/40 blur-[70px]' : 'scale-100'}`}></div>
+        </motion.div>
+
+        {/* Subtitles */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -61,32 +132,6 @@ export function Hero() {
           "Transforming Ideas Into Intelligent Digital Experiences."
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-          className="flex flex-col sm:flex-row gap-6"
-        >
-          <a
-            href="#projects"
-            className="group relative px-8 py-4 bg-primary text-primary-foreground font-heading font-bold tracking-widest uppercase overflow-hidden rounded-sm flex items-center justify-center gap-3 transition-transform hover:scale-105 active:scale-95"
-          >
-            <div className="absolute inset-0 w-full h-full bg-accent origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></div>
-            <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
-              View Fleet <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </span>
-            {/* Holographic glow effect */}
-            <div className="absolute inset-0 shadow-[0_0_20px_#FF1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </a>
-
-          <a
-            href="#contact"
-            className="group relative px-8 py-4 bg-transparent border border-white/20 text-white font-heading font-bold tracking-widest uppercase overflow-hidden rounded-sm flex items-center justify-center transition-all hover:border-primary hover:text-primary hover:shadow-[0_0_15px_rgba(255,26,26,0.3)] active:scale-95"
-          >
-            <span className="relative z-10">Establish Comms</span>
-            <div className="absolute inset-0 bg-primary/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          </a>
-        </motion.div>
       </div>
 
       {/* Decorative scanline */}

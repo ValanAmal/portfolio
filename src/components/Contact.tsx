@@ -1,111 +1,87 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Terminal, Send, Code, Globe, Mail } from "lucide-react";
+import { Code, Globe, Camera, Mail, Radio } from "lucide-react";
+
+const commLinks = [
+  { name: "GitHub", url: "https://github.com/ValanAmal", icon: Code, handle: "@ValanAmal" },
+  { name: "LinkedIn", url: "https://share.google/yZpg0x9E8FZURIQ5F", icon: Globe, handle: "Valan Amal" },
+  { name: "Instagram", url: "https://instagram.com/valanamal", icon: Camera, handle: "@valanamal" },
+  { name: "Email", url: "mailto:valanamal04@gmail.com", icon: Mail, handle: "valanamal04@gmail.com" },
+];
 
 export function Contact() {
   return (
-    <section id="contact" className="py-24 relative z-10 bg-black/80 border-t border-primary/20 shadow-[0_-10px_30px_rgba(255,26,26,0.05)]">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          
-          {/* Left Column: Info & Socials */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col justify-center"
-          >
-            <div className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded border border-primary/30 bg-primary/5">
-              <Terminal size={14} className="text-primary" />
-              <span className="text-xs font-mono tracking-widest text-primary uppercase">Secure Channel</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-heading font-black text-white uppercase tracking-tight mb-6">
-              Establish <span className="text-primary">Comms</span>
-            </h2>
-            
-            <p className="text-lg text-muted-foreground mb-12 max-w-md font-light">
-              Ready to deploy new initiatives? Open a secure channel to initiate protocols for collaboration, opportunities, or technical inquiries.
-            </p>
+    <section id="contact" className="py-32 relative z-10 bg-[#020202] border-t border-primary/20 shadow-[0_-10px_30px_rgba(255,26,26,0.05)] overflow-hidden">
+      
+      {/* Background Radar sweep */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+        <div className="w-[150vw] h-[150vw] rounded-full border border-primary/20 absolute animate-[ping_10s_infinite]"></div>
+        <div className="w-[100vw] h-[100vw] rounded-full border border-primary/30 absolute animate-[ping_8s_infinite]"></div>
+        <div className="w-[50vw] h-[50vw] rounded-full border border-primary/40 absolute animate-[ping_6s_infinite]"></div>
+      </div>
 
-            <div className="flex gap-4">
-              <a href="https://github.com/valanamal" target="_blank" rel="noreferrer" className="w-12 h-12 flex items-center justify-center rounded bg-white/5 border border-white/10 hover:border-primary hover:bg-primary/10 hover:text-primary transition-all group">
-                <Code size={24} className="text-muted-foreground group-hover:text-primary transition-colors" />
-              </a>
-              <a href="https://linkedin.com/in/valanamal" target="_blank" rel="noreferrer" className="w-12 h-12 flex items-center justify-center rounded bg-white/5 border border-white/10 hover:border-primary hover:bg-primary/10 hover:text-primary transition-all group">
-                <Globe size={24} className="text-muted-foreground group-hover:text-primary transition-colors" />
-              </a>
-              <a href="mailto:valan@example.com" className="w-12 h-12 flex items-center justify-center rounded bg-white/5 border border-white/10 hover:border-primary hover:bg-primary/10 hover:text-primary transition-all group">
-                <Mail size={24} className="text-muted-foreground group-hover:text-primary transition-colors" />
-              </a>
-            </div>
+      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="mx-auto w-16 h-16 bg-primary/10 border border-primary text-primary flex items-center justify-center rounded-sm mb-6 relative group"
+          >
+            <div className="absolute inset-0 bg-primary opacity-20 group-hover:opacity-50 blur-md transition-opacity"></div>
+            <Radio size={32} className="relative z-10 animate-pulse" />
           </motion.div>
-
-          {/* Right Column: Terminal Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="text-5xl md:text-7xl font-heading font-black text-white uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(255,26,26,0.4)]"
           >
-            <div className="bg-[#050505] rounded-lg border border-white/10 shadow-2xl overflow-hidden font-mono">
-              {/* Terminal Header */}
-              <div className="bg-[#111] px-4 py-3 flex items-center gap-2 border-b border-white/10">
-                <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
-                <div className="ml-4 text-xs text-muted-foreground uppercase tracking-wider">transmission.sh</div>
-              </div>
+            ESTABLISH <span className="text-primary">COMMS</span>
+          </motion.h2>
+          <p className="text-muted-foreground font-mono tracking-widest uppercase mt-6 max-w-2xl mx-auto">
+            Open a secure channel to initiate protocols for collaboration, opportunities, or technical inquiries.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {commLinks.map((link, idx) => (
+            <motion.a
+              href={link.url}
+              target={link.name !== "Email" ? "_blank" : undefined}
+              rel="noreferrer"
+              key={link.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              className="group relative h-48 bg-black border border-white/10 rounded-lg p-6 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-primary hover:shadow-[0_15px_30px_rgba(255,26,26,0.15)]"
+            >
+              {/* Holographic background sweep on hover */}
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/0 via-primary/5 to-primary/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-0"></div>
               
-              {/* Terminal Body */}
-              <div className="p-6 md:p-8">
-                <form className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-primary text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-muted-foreground">$</span> Name
-                    </label>
-                    <input 
-                      type="text" 
-                      required
-                      className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-white focus:outline-none focus:border-primary transition-colors placeholder:text-white/20"
-                      placeholder="Enter designation"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-primary text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-muted-foreground">$</span> Email
-                    </label>
-                    <input 
-                      type="email" 
-                      required
-                      className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-white focus:outline-none focus:border-primary transition-colors placeholder:text-white/20"
-                      placeholder="Enter comm link"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-primary text-sm tracking-wider flex items-center gap-2">
-                      <span className="text-muted-foreground">$</span> Message
-                    </label>
-                    <textarea 
-                      required
-                      rows={4}
-                      className="w-full bg-transparent border-b border-white/20 px-0 py-2 text-white focus:outline-none focus:border-primary transition-colors placeholder:text-white/20 resize-none"
-                      placeholder="Enter transmission data..."
-                    ></textarea>
-                  </div>
-                  
-                  <button 
-                    type="submit"
-                    className="w-full mt-8 bg-primary/20 hover:bg-primary text-primary hover:text-white border border-primary py-4 rounded font-heading font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(255,26,26,0.2)] hover:shadow-[0_0_25px_rgba(255,26,26,0.5)]"
-                  >
-                    Execute Transmission <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </button>
-                </form>
+              {/* Top corner accents */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+
+              <div className="relative z-20 flex justify-between items-start">
+                <div className="p-3 bg-white/5 border border-white/10 rounded group-hover:bg-primary/20 group-hover:border-primary/50 transition-colors">
+                  <link.icon size={24} className="text-white group-hover:text-primary transition-colors" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-red-900 group-hover:bg-primary group-hover:shadow-[0_0_10px_#FF1A1A] transition-colors animate-pulse"></div>
               </div>
-            </div>
-          </motion.div>
+
+              <div className="relative z-20">
+                <h3 className="text-xl font-heading font-bold text-white tracking-widest uppercase mb-1">
+                  {link.name}
+                </h3>
+                <p className="text-sm font-mono text-muted-foreground group-hover:text-primary/80 transition-colors">
+                  {link.handle}
+                </p>
+              </div>
+            </motion.a>
+          ))}
         </div>
       </div>
     </section>

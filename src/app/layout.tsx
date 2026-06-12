@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/Navigation";
 import { Starfield } from "@/components/Starfield";
 
 const inter = Inter({
@@ -32,7 +31,6 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden selection:bg-primary/30 selection:text-primary-foreground">
         <Starfield />
-        <Navigation />
         <main className="flex-1">
           {children}
         </main>
